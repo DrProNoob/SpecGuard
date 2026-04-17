@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "rules": [
+    {
+      "id": "require-spec-reference",
+      "enabled": true,
+      "description": "Require PR context to reference at least one spec/ticket artifact."
+    },
+    {
+      "id": "openapi-change-requires-contract-note",
+      "enabled": false,
+      "description": "Placeholder rule for future contract drift checks."
+    }
+  ]
+}
