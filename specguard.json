@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "rules": [
+    {
+      "id": "behavior-code-requires-spec-and-tests",
+      "enabled": true,
+      "description": "Behavior-affecting code changes should include spec/ticket evidence and test evidence, or an explicit waiver."
+    },
+    {
+      "id": "openapi-change-requires-contract-note",
+      "enabled": false,
+      "description": "Placeholder rule for future contract drift checks."
+    }
+  ],
+  "waivers": [
+    {
+      "rule_id": "behavior-code-requires-spec-and-tests",
+      "path_patterns": [
+        "src/legacy/*"
+      ],
+      "reason": "Legacy migration area temporarily waived during refactor window."
+    }
+  ]
+}
