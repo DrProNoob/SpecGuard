@@ -2,7 +2,9 @@ from __future__ import annotations
 
 from pathlib import Path
 
-CONFLICT_MARKERS = ("<<<<<<< ", "=======", ">>>>>>> ")
+LEFT_MARKER = "<" * 7
+MID_MARKER = "=" * 7
+RIGHT_MARKER = ">" * 7
 SKIP_DIRS = {".git", ".venv", "__pycache__", ".pytest_cache"}
 SKIP_EXTENSIONS = {".pyc", ".png", ".jpg", ".jpeg", ".gif", ".pdf", ".ico"}
 
@@ -18,6 +20,15 @@ def _iter_repo_files(repo_root: Path):
         yield path
 
 
+def _contains_conflict_marker(line: str) -> bool:
+    stripped = line.lstrip()
+    return (
+        stripped.startswith(f"{LEFT_MARKER} ")
+        or stripped == MID_MARKER
+        or stripped.startswith(f"{RIGHT_MARKER} ")
+    )
+
+
 def test_repository_has_no_unresolved_merge_conflict_markers() -> None:
     repo_root = Path(__file__).resolve().parents[1]
     markers_found: list[str] = []
@@ -29,7 +40,7 @@ def test_repository_has_no_unresolved_merge_conflict_markers() -> None:
             continue
 
         for line_number, line in enumerate(content.splitlines(), start=1):
-            if line.startswith(CONFLICT_MARKERS):
+            if _contains_conflict_marker(line):
                 relative = file_path.relative_to(repo_root)
                 markers_found.append(f"{relative}:{line_number}: {line}")
 
